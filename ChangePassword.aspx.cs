@@ -130,7 +130,12 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
                                 DateTime defineCountDown = DateTime.Now.AddMinutes(1); //Define 1 min countdown
                                 string newdateTime = defineCountDown.ToString();
+
+                                DateTime defineMustChangeCountDown = DateTime.Now.AddMinutes(3); //Define 5 min countdown
+                                string newMustChangedateTime = defineMustChangeCountDown.ToString();
+
                                 updateChangePasswordTimer(newdateTime, email); //Update to DB
+                                updateMustChangePasswordTimer(newMustChangedateTime, email); //Update to DB
 
                                 //updateChangePasswordTimer(newdateTime, email);
                                 //getChangePasswordTimer(email);
@@ -150,6 +155,85 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             {
                 comparePassword.Text = "You cannot change your password yet. You may do so after " + getChangePasswordTimer(email);
             }
+        }
+
+        protected string getMustChangePasswordTimer(string userid)
+        {
+
+            string s = null;
+
+            SqlConnection connection = new SqlConnection(AssignDBConnectionString);
+            string sql = "select MustChangePasswordCountdown FROM USERINFO WHERE Email=@EMAIL";
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@EMAIL", userid);
+
+            try
+            {
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (reader["MustChangePasswordCountdown"] != null)
+                        {
+                            if (reader["MustChangePasswordCountdown"] != DBNull.Value)
+                            {
+                                s = reader["MustChangePasswordCountdown"].ToString();
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+
+            finally { connection.Close(); }
+            return s;
+
+        }
+
+        protected string updateMustChangePasswordTimer(string timer, string userid)
+        {
+
+            string s = null;
+
+            SqlConnection connection = new SqlConnection(AssignDBConnectionString);
+            string sql = "update USERINFO set MustChangePasswordCountdown=@VALUE WHERE Email=@EMAIL";
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@VALUE", timer);
+            command.Parameters.AddWithValue("@EMAIL", userid);
+
+            try
+            {
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (reader["MustChangePasswordCountdown"] != null)
+                        {
+                            if (reader["MustChangePasswordCountdown"] != DBNull.Value)
+                            {
+                                s = reader["MustChangePasswordCountdown"].ToString();
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+
+            finally { connection.Close(); }
+            return s;
+
         }
 
         protected string getChangePasswordTimer(string userid)

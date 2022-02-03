@@ -24,31 +24,13 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// AccountLockdown control.
+        /// MustChangePassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl AccountLockdown;
-
-        /// <summary>
-        /// LockdownMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LockdownMessage;
-
-        /// <summary>
-        /// LoginSection control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl LoginSection;
+        protected global::System.Web.UI.WebControls.Label MustChangePassword;
 
         /// <summary>
         /// sup control.

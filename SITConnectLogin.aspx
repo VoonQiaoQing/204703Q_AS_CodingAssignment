@@ -3,27 +3,18 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-    <script src="https://www.google.com/recaptcha/api.js?render=6Lda1kMeAAAAAGqMZQEK3toLQzak0tAx1duE75er"></script>
+    <head runat="server">
+        <title></title>
+        <script src="https://www.google.com/recaptcha/api.js?render=6Lda1kMeAAAAAGqMZQEK3toLQzak0tAx1duE75er"></script>
 
-</head>
-<body>
-
-    <form id="form1" runat="server">
-
-        <div id="AccountLockdown"  runat="server" visible="false">
-        <strong> Account Lockdown</strong>
+    </head>
+    
+    <body>
+        <form id="form1" runat="server">
+            <strong>SITCONNECT Login<br />
+                <br />
+            </strong>&nbsp;<asp:Label ID="MustChangePassword" runat="server" Text=""></asp:Label>
         <br />
-        <asp:Label ID="LockdownMessage" runat="server" Text=""></asp:Label>
-        <br />
-        <br />
-        </div>
-        
-        <div id="LoginSection"  runat="server" visible="true">
-        
-        <strong>SITCONNECT Login</strong>
-
         <div id="sup" runat="server" visible="true">
 
         <p>Email:
@@ -81,7 +72,6 @@
         <br />
 
         <asp:Button ID="ResendCode" runat="server" Text="Resend Code" Width="319px" OnClick="ResendCode_Click" />
-        </div>
         </div>
 
     </form>

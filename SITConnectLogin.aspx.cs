@@ -33,6 +33,25 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            string userid = HttpUtility.HtmlEncode(loginEmail.Text.ToString().Trim());
+            DateTime currentTime = DateTime.Now; // Current Time
+            DateTime getMPCountdown = Convert.ToDateTime(getMustChangePasswordTimer(userid));
+
+            //define message to change password before 3 minutes
+
+            if ((DateTime.Compare(currentTime, getMPCountdown).Equals(-1)))
+            {
+                MustChangePassword.Text = "Please change your password in " + getMustChangePasswordTimer(userid);
+            }
+            else
+            {
+                MustChangePassword.Text = "Please change your password now to secure your account.";
+                //Response.Redirect("ChangePassword.aspx", false);
+
+                //MAKE OTP FIeld INVISIBLE
+                //Change Password Field visible
+                //After changes made, make Otp field visible
+            }
 
         }
 
@@ -287,6 +306,45 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             smtp.Port = 587;
             //smtp.Port = 25;
             smtp.Send(mailMessage);
+        }
+
+        protected string getMustChangePasswordTimer(string userid)
+        {
+
+            string s = null;
+
+            SqlConnection connection = new SqlConnection(AssignDBConnectionString);
+            string sql = "select MustChangePasswordCountdown FROM USERINFO WHERE Email=@EMAIL";
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@EMAIL", userid);
+
+            try
+            {
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (reader["MustChangePasswordCountdown"] != null)
+                        {
+                            if (reader["MustChangePasswordCountdown"] != DBNull.Value)
+                            {
+                                s = reader["MustChangePasswordCountdown"].ToString();
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+
+            finally { connection.Close(); }
+            return s;
+
         }
 
         protected string getEmailOTP(string userid)

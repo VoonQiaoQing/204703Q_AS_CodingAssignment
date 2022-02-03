@@ -27,10 +27,6 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             int result = Convert.ToInt32(Request.Cookies["wassup"].Value);
             string Email = Request.Cookies["Email"].Value;
 
-            //updateLoginAttempts(Email);
-
-            //updateLoginAttempts(Email);
-
             LockdownMessage.Text = "Account is locked down. Please try again after 15 minutes." + Email;
 
             if (Session["wassup"] != null && Request.Cookies["wassup"] != null)
@@ -57,12 +53,6 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                         Response.Cookies["Email"].Expires = DateTime.Now.AddMonths(-20);
                     }
 
-/*                    if (Request.Cookies["ASP.NET_SessionId"] != null)
-                    {
-                        Response.Cookies["ASP.NET_SessionId"].Value = string.Empty;
-                        Response.Cookies["ASP.NET_SessionId"].Expires = DateTime.Now.AddMonths(-20);
-                    }*/
-
                     updateLoginAttempts(Email);
 
                     Response.Redirect("SITConnectLogin.aspx", false);
@@ -75,8 +65,6 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                 Session.Abandon();
                 Session.RemoveAll();
 
-                //Response.Redirect("LoginForm.aspx", false);
-
                 if (Request.Cookies["wassup"] != null)
                 {
                     Response.Cookies["wassup"].Value = string.Empty;
@@ -88,16 +76,10 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                     Response.Cookies["Email"].Expires = DateTime.Now.AddMonths(-20);
                 }
 
-/*                if (Request.Cookies["ASP.NET_SessionId"] != null)
-                {
-                    Response.Cookies["ASP.NET_SessionId"].Value = string.Empty;
-                    Response.Cookies["ASP.NET_SessionId"].Expires = DateTime.Now.AddMonths(-20);
-                }*/
                 updateLoginAttempts(Email);
 
                 Response.Redirect("SITConnectLogin.aspx", false);
             }
-            //updateLoginAttempts(Email);
         }
 
         protected string updateLoginAttempts(string userid)
