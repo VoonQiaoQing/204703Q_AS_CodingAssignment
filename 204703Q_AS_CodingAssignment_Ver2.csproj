@@ -73,6 +73,9 @@
     </Content>
     <Content Include="ChangePassword.aspx" />
     <Content Include="LockAccount.aspx" />
+    <Content Include="PageError\GenericError.html" />
+    <Content Include="PageError\HTTP404.html" />
+    <Content Include="PageError\HTTP500.html" />
     <Content Include="SITConnectHomePage.aspx" />
     <Content Include="SITConnectLogin.aspx" />
     <Content Include="SITConnectRegistration.aspx" />

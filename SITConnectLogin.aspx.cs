@@ -18,6 +18,7 @@ using System.Web.Services;
 //send gmail
 using System.Net.Mail;
 using System.Configuration;
+using System.Diagnostics;
 
 namespace _204703Q_AS_CodingAssignment_Ver2
 {
@@ -33,6 +34,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected void Page_Load(object sender, EventArgs e)
         {
 
+
         }
 
         protected void ResendCode_Click(object sender, EventArgs e)
@@ -42,7 +44,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                 string userid = HttpUtility.HtmlEncode(loginEmail.Text.ToString().Trim());
                 Random ran = new Random();
 
-                int EmailOTP = ran.Next(1, 999999);
+                int EmailOTP = ran.Next(100000, 999999);
 
                 string ToEmail = userid;
                 string Subj = "Confirm your email for SITConnect Login!";
@@ -73,7 +75,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             }
             else
             {
-                EmailLabel.Text = "OTP is wrong";
+                EmailLabel.Text = "Email OTP is wrong. Please check your OTP or request a new one.";
             }
         }
 
@@ -101,7 +103,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                     {
                         if (userHash.Equals(dbHash))
                         {
-                            if (Convert.ToInt32(getAttempts(userid)) < 10)
+                            if (Convert.ToInt32(getAttempts(userid)) < 3)
                             {
                                 //PLEASE ADD UPDATE ATTEMPTS TO 0 TO CLEAR IT
                                 updateLoginAttempts(userid);
@@ -149,7 +151,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                             if (userid.Equals(getEmail(userid)) == false) //email
                             {
 
-                                if (Convert.ToInt32(getAttempts(userid)) > 10)
+                                if (Convert.ToInt32(getAttempts(userid)) > 3)
                                 {
                                     //LoginSection.Visible = false;
                                     DateTime countDown = DateTime.Now.AddMinutes(1);
@@ -173,14 +175,14 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                                     int increase = Convert.ToInt32(getAttempts(userid)) + 1;
                                     updateAttempts(increase, userid);
 
-                                    Label1.Text = "Email or Password is wrong. Please try again. Attempts: " + getAttempts(userid).ToString();
+                                    Label1.Text = "Email or Password is wrong. Please try again. Attempts: " + getAttempts(userid).ToString() + "/3";
                                 }
                             }
 
                             if (userHash.Equals(dbHash) == false)
                             { //password
 
-                                if (Convert.ToInt32(getAttempts(userid)) > 10)
+                                if (Convert.ToInt32(getAttempts(userid)) > 3)
                                 {
                                     //LoginSection.Visible = false;
                                     DateTime countDown = DateTime.Now.AddMinutes(1);
@@ -204,13 +206,13 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                                     int increase = Convert.ToInt32(getAttempts(userid)) + 1;
                                     updateAttempts(increase, userid);
 
-                                    Label1.Text = "Email or Password is wrong. Please try again. Attempts: " + getAttempts(userid).ToString();
+                                    Label1.Text = "Email or Password is wrong. Please try again. Attempts: " + getAttempts(userid).ToString() + "/3";
                                 }
                             }
 
                             else
                             {
-                                if (Convert.ToInt32(getAttempts(userid)) > 10)
+                                if (Convert.ToInt32(getAttempts(userid)) > 3)
                                 {
                                     //LoginSection.Visible = false;
                                     DateTime countDown = DateTime.Now.AddMinutes(1);
@@ -234,7 +236,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                                     int increase = Convert.ToInt32(getAttempts(userid)) + 1;
                                     updateAttempts(increase, userid);
 
-                                    Label1.Text = "Email or Password is wrong. Please try again. Attempts: " + getAttempts(userid).ToString();
+                                    Label1.Text = "Email or Password is wrong. Please try again. Attempts: " + getAttempts(userid).ToString() + "/3";
                                 }
                             }
 
@@ -245,6 +247,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             catch (Exception ex)
             {
                 throw new Exception(ex.ToString());
+
             }
 
             finally

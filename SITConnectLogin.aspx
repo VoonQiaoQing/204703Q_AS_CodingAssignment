@@ -11,17 +11,18 @@
     
     <body>
         <form id="form1" runat="server">
-        <strong>SITCONNECT Login<br /></strong>
-        <asp:Label ID="MustChangePassword" runat="server" Text=""></asp:Label>
-        <br />
+        <fieldset>
+        
+        <legend><strong>SITCONNECT Login</strong><br /></legend>
+
         <div id="sup" runat="server" visible="true">
         <p>Email:
-            <asp:TextBox ID="loginEmail" runat="server"></asp:TextBox>
+            <asp:TextBox ID="loginEmail" runat="server" Width="244px"></asp:TextBox>
         </p>
 
 
         <p>Password:
-            <asp:TextBox ID="loginPassword" runat="server" Width="141px"></asp:TextBox>
+            <asp:TextBox ID="loginPassword" runat="server" Width="219px"></asp:TextBox>
         </p>
 
         <!--<asp:LinkButton ID="LinkButton1" runat="server">Forgot Password?</asp:LinkButton>
@@ -39,11 +40,8 @@
         </script>
 
         <p>
-        <asp:Button ID="loginSubmit" runat="server" Text="Confirm" Width="263px" OnClick="loginSubmit_Click" />
-        </p>
-
-        <p>
-        <asp:Button ID="registerUser" runat="server" Text="Register New User" Width="263px" OnClick="registerUser_Click" />
+        <asp:Button ID="registerUser" runat="server" Text="Register New User" Width="146px" OnClick="registerUser_Click" />
+        <asp:Button ID="loginSubmit" runat="server" Text="Confirm" Width="148px" OnClick="loginSubmit_Click" />
         </p>
 
         </div>
@@ -56,28 +54,23 @@
         <br />
 
         <br />
-
-        <div id="emailconfirm"  runat="server" visible="false">
-            <strong>Email Confirmation<br />
+        
+        <fieldset>
+            <legend><strong>Email Confirmation</strong></legend>
+            <div id="emailconfirm"  runat="server" visible="false">
             <br />
             A 6 digit code has been send to your email.<br />
             <br />
-            </strong>
+            
             6 Digit Code: <asp:TextBox ID="tb_EmailOTP" runat="server"></asp:TextBox>
             <br />
             <br />
+            <asp:Button ID="submitorfail" Width="146px" runat="server" Text="Submit" OnClick="submitorfail_Click" />&nbsp;<asp:Button ID="ResendCode" runat="server" Width="146px" Text="Resend Code" OnClick="ResendCode_Click" />
+            <br />
+            <br />
             <asp:Label ID="EmailLabel" runat="server" Text=""></asp:Label>
-            <br />
-            <br />
-            <asp:Button ID="submitorfail" runat="server" Text="Submit" OnClick="submitorfail_Click" />
-
-        <br />
-
-        <br />
-
-        <asp:Button ID="ResendCode" runat="server" Text="Resend Code" Width="319px" OnClick="ResendCode_Click" />
         </div>
-
+    </fieldset>
     </form>
 
     </body>

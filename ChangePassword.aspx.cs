@@ -38,8 +38,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Retrieve cookie value, replace Response to Request
-            comparePassword.Text = Request.Cookies["LoggedIn"].Value;
+
         }
 
         private int checkPassword(string password)
@@ -170,24 +169,29 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                 if (getFirstOldPassHash.Equals(finalHash1)) //if match first old pass
                 {
                     comparePassword.Text = "Please use a new password different from your last two passwords.";
+                    comparePassword.ForeColor = Color.Red;
                 }
                 else
                 {
                     if (getSecOldPassHash.Equals(finalHash2)) // if match second old pass
                     {
                         comparePassword.Text = "Please use a new password different from your last two passwords.";
+                        comparePassword.ForeColor = Color.Red;
                     }
                     else
                     {
                         if (getLatestOldPassHash.Equals(finalHash0))
                         {
                             comparePassword.Text = "Please use a new password different from your last two passwords.";
+                            comparePassword.ForeColor = Color.Red;
                         }
                         else
                         {
 
                             if (pwd.Equals(HttpUtility.HtmlEncode(tb_ConfirmPassword.Text.ToString().Trim())))
                             {
+                                updateLog(email);
+
                                 //replace with latest old password
                                 updatePassword1Hash(getPasswordHash(email), email);
                                 updatePassword1Salt(getPasswordSalt(email), email);
@@ -201,7 +205,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                                 DateTime defineCountDown = DateTime.Now.AddMinutes(1); //Define 1 min countdown
                                 string newdateTime = defineCountDown.ToString();
 
-                                DateTime defineMustChangeCountDown = DateTime.Now.AddMinutes(3); //Define 5 min countdown
+                                DateTime defineMustChangeCountDown = DateTime.Now.AddMinutes(30); //Define 5 min countdown
                                 string newMustChangedateTime = defineMustChangeCountDown.ToString();
 
                                 updateChangePasswordTimer(newdateTime, email); //Update to DB
@@ -216,6 +220,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                             else
                             {
                                 comparePassword.Text = "Passwords do not match.";
+                                comparePassword.ForeColor = Color.Red;
                             }
                         }
                     }
@@ -224,6 +229,38 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             else // if countdown not over, cannot change password
             {
                 comparePassword.Text = "You cannot change your password yet. You may do so after " + getChangePasswordTimer(email);
+                comparePassword.ForeColor = Color.Red;
+            }
+        }
+
+        protected void updateLog(string Email)
+        {
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(AssignDBConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO AuditLog VALUES(@User, @Changes, @Operation, @OccurredAt)"))
+                    {
+                        using (SqlDataAdapter sda = new SqlDataAdapter())
+                        {
+                            cmd.CommandType = CommandType.Text;
+                            cmd.Parameters.AddWithValue("@User", Email);
+                            cmd.Parameters.AddWithValue("@Changes", "UPDATE");
+                            cmd.Parameters.AddWithValue("@Operation", "Change Password");
+                            cmd.Parameters.AddWithValue("@OccurredAt", DateTime.Now.ToString());
+                            cmd.Connection = con;
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+                            con.Close();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
             }
         }
 

@@ -9,9 +9,13 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div><strong> Account Lockdown</strong></div>
+        <fieldset>
+        <legend><strong> Account Lockdown</strong></legend>
         <br />
+            <strong>
         <asp:Label ID="LockdownMessage" runat="server" Text=""></asp:Label>
+            </strong>
+            </fieldset>
     </form>
 </body>
 </html>

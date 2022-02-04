@@ -24,15 +24,6 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// MustChangePassword control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label MustChangePassword;
-
-        /// <summary>
         /// sup control.
         /// </summary>
         /// <remarks>
@@ -78,15 +69,6 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected global::System.Web.UI.WebControls.Label lbl_gScore;
 
         /// <summary>
-        /// loginSubmit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button loginSubmit;
-
-        /// <summary>
         /// registerUser control.
         /// </summary>
         /// <remarks>
@@ -94,6 +76,15 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button registerUser;
+
+        /// <summary>
+        /// loginSubmit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button loginSubmit;
 
         /// <summary>
         /// lblMessage control.
@@ -141,15 +132,6 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected global::System.Web.UI.WebControls.TextBox tb_EmailOTP;
 
         /// <summary>
-        /// EmailLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label EmailLabel;
-
-        /// <summary>
         /// submitorfail control.
         /// </summary>
         /// <remarks>
@@ -166,5 +148,14 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ResendCode;
+
+        /// <summary>
+        /// EmailLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EmailLabel;
     }
 }

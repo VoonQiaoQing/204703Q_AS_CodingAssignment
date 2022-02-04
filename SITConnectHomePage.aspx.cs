@@ -43,7 +43,9 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
                     if (DateTime.Compare(currentTime, getMPCountdown).Equals(-1)) //current time earlier than 5 min
                     {
+                        updateLog(Email);
                         MustChangePassword.Text = "Please change your password in " + getMustChangePasswordTimer(Email);
+                        
                     }
                     else
                     {
@@ -134,5 +136,35 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
         }
 
+        protected void updateLog(string Email)
+        {
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(AssignDBConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO AuditLog VALUES(@User, @Changes, @Operation, @OccurredAt)"))
+                    {
+                        using (SqlDataAdapter sda = new SqlDataAdapter())
+                        {
+                            cmd.CommandType = CommandType.Text;
+                            cmd.Parameters.AddWithValue("@User", Email);
+                            cmd.Parameters.AddWithValue("@Changes", "NIL");
+                            cmd.Parameters.AddWithValue("@Operation", "Logging In");
+                            cmd.Parameters.AddWithValue("@OccurredAt", DateTime.Now.ToString());
+                            cmd.Connection = con;
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+                            con.Close();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+        }
     }
 }

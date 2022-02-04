@@ -6,18 +6,19 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div>
-            <strong>SIT Connect Home Page<br />
+        <fieldset>
+            <legend><strong>SIT Connect Home Page</strong></legend>
+            <div>
             <br />
             <asp:Label ID="MustChangePassword" runat="server" Text=""></asp:Label>
             <br />
             <br />
-                <asp:Button ID="changePassword" runat="server" Text="Change Password" OnClick="changePassword_Click"/>
-            </strong>
+            <asp:Button ID="changePassword" runat="server" Text="Change Password" OnClick="changePassword_Click"/>
             <br />
             <br />
-        <asp:Button ID="logOut" runat="server" Text="Log Out" OnClick="logOut_Click" Width="237px" />
+            <asp:Button ID="logOut" runat="server" Text="Log Out" OnClick="logOut_Click" Width="237px" />
             </div>
+        </fieldset>
     </form>
 </body>
 </html>

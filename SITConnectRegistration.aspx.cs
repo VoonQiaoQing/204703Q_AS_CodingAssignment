@@ -126,28 +126,44 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
             if (Regex.IsMatch(firstName.Text.Trim(), "^[ a-zA-Z]+$"))
             {
+                firstNameMsg.Text = "";
+
                 if (Regex.IsMatch(lastName.Text.Trim(), "^[ a-zA-Z]+$"))
                 {
+                    lastNameMsg.Text = "";
+
                     if (Regex.IsMatch(CreditCardName.Text.Trim(), "^[ a-zA-Z]+$"))
                     {
+                        creditNameMsg.Text = "";
+
                         if (Regex.IsMatch(CreditCardNumber.Text.Trim(), "^[0-9]{16}$"))
                         {
+                            creditNumberMsg.Text = "";
+
                             if (Regex.IsMatch(CreditCardExpireMonth.Text.Trim(), "^((0[1-9])|(1[0-2]))$"))
                             {
+                                creditExpireMonthMsg.Text = "";
+
                                 if (Regex.IsMatch(CreditCardExpireYear.Text.Trim(), "^[0-9]{2}$"))
                                 {
+                                    creditExpireYearMsg.Text = "";
+
                                     if (Regex.IsMatch(CreditCardCCV.Text.Trim(), "^[0-9]{3}$"))
                                     {
+                                        creditExpireYearMsg.Text = "";
+
                                         if (Regex.IsMatch(Email.Text.Trim(), "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"))
                                         {
-
-                                            //getemail
+                                            emailMsg.Text = "";
+                                            
                                             if (Email.Text.Trim().Equals(getEmail(Email.Text.Trim())))
                                             {
-                                                AccountCreated.Text = "Gmail Account already used. Please use a new Gmail account";
+                                                AccountCreated.Text = "Gmail Account already used. Please use a new Gmail account!";
+                                                AccountCreated.ForeColor = Color.Red;
                                             }
                                             else
                                             {
+                                                AccountCreated.Text = "";
                                                 //string pwd = get value from your Textbox
                                                 string pwd = Password.Text.ToString().Trim();
                                                 //Generate random "salt" 
@@ -167,6 +183,8 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                                                 IV = cipher.IV;
                                                 createAccount();
 
+                                                updateLog(Email.Text.Trim());
+
                                                 string folderPath = Server.MapPath("~/Images/");
 
                                                 //Check whether Directory (Folder) exists.
@@ -185,41 +203,49 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                                         else
                                         {
                                             emailMsg.Text = "Invalid Email.";
+                                            emailMsg.ForeColor = Color.Red;
                                         }
                                     }
                                     else
                                     {
                                         creditCCVMsg.Text = "Invalid CCV.";
+                                        creditCCVMsg.ForeColor = Color.Red;
                                     }
                                 }
                                 else
                                 {
                                     creditExpireYearMsg.Text = "Invalid Year.";
+                                    creditExpireYearMsg.ForeColor = Color.Red;
                                 }
                             }
                             else
                             {
                                 creditExpireMonthMsg.Text = "Invalid Month.";
+                                creditExpireMonthMsg.ForeColor = Color.Red;
                             }
                         }
                         else
                         {
-                            creditNumberMsg.Text = "Invalid Input.";
+                            creditNumberMsg.Text = "Only 16 Digit Numbers allowed.";
+                            creditNumberMsg.ForeColor = Color.Red;
                         }
                     }
                     else
                     {
-                        creditNameMsg.Text = "Invalid Input.";
+                        creditNameMsg.Text = "Only alphabets allowed.";
+                        creditNameMsg.ForeColor = Color.Red;
                     }
                 }
                 else
                 {
-                    lastNameMsg.Text = "Invalid Input.";
+                    lastNameMsg.Text = "Only alphabets allowed.";
+                    lastNameMsg.ForeColor = Color.Red;
                 }
             }
             else
             {
-                firstNameMsg.Text = "Invalid Input.";
+                firstNameMsg.Text = "Only alphabets allowed.";
+                firstNameMsg.ForeColor = Color.Red;
             }
         }
 
@@ -264,11 +290,42 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                             cmd.Parameters.AddWithValue("@OldPassword2Salt", ""); 
                             cmd.Parameters.AddWithValue("@OldPassword2Hash", "");
                             DateTime dateTimeMin = DateTime.Now.AddMinutes(1);
-                            DateTime dateTimeMax = DateTime.Now.AddMinutes(3);
+                            DateTime dateTimeMax = DateTime.Now.AddMinutes(30);
                             string newdateTimeMin = dateTime.ToString();
                             string newdateTimeMax = dateTime.ToString();
                             cmd.Parameters.AddWithValue("@ChangePasswordCountdown", newdateTimeMin);
                             cmd.Parameters.AddWithValue("@MustChangePasswordCountdown", newdateTimeMax);
+                            cmd.Connection = con;
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+                            con.Close();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+        }
+
+        protected void updateLog(string Email)
+        {
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(AssignDBConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO AuditLog VALUES(@User, @Changes, @Operation, @OccurredAt)"))
+                    {
+                        using (SqlDataAdapter sda = new SqlDataAdapter())
+                        {
+                            cmd.CommandType = CommandType.Text;
+                            cmd.Parameters.AddWithValue("@User", Email);
+                            cmd.Parameters.AddWithValue("@Changes", "CREATING");
+                            cmd.Parameters.AddWithValue("@Operation", "New User Registered");
+                            cmd.Parameters.AddWithValue("@OccurredAt", DateTime.Now.ToString());
                             cmd.Connection = con;
                             con.Open();
                             cmd.ExecuteNonQuery();

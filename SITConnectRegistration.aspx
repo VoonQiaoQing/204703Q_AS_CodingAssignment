@@ -52,29 +52,35 @@
                 }
 
     </script>
+    <style type="text/css">
+        .auto-style1 {
+            margin-top: 0px;
+        }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
-        <strong>Registration Form</strong>
+        <fieldset>
+        <legend><strong>Registration Form</strong></legend>
         <p>
             First Name:
-            <asp:TextBox ID="firstName" runat="server" Width="266px"></asp:TextBox><asp:Label ID="firstNameMsg" runat="server" Text=""> </asp:Label>
+            <asp:TextBox ID="firstName" runat="server" Width="285px"></asp:TextBox><asp:Label ID="firstNameMsg" runat="server" Text=""> </asp:Label>
         </p>
         <p>
             Last Name:
-            <asp:TextBox ID="lastName" runat="server" Width="262px"></asp:TextBox><asp:Label ID="lastNameMsg" runat="server" Text=""> </asp:Label>
+            <asp:TextBox ID="lastName" runat="server" Width="285px"></asp:TextBox><asp:Label ID="lastNameMsg" runat="server" Text=""> </asp:Label>
         </p>
         <p>
             Credit Card Name:
-            <asp:TextBox ID="CreditCardName" runat="server" Width="192px"></asp:TextBox><asp:Label ID="creditNameMsg" runat="server" Text=""> </asp:Label>
+            <asp:TextBox ID="CreditCardName" runat="server" Width="237px"></asp:TextBox><asp:Label ID="creditNameMsg" runat="server" Text=""> </asp:Label>
         </p>
         <p>
             Credit Card Number:
-            <asp:TextBox ID="CreditCardNumber" runat="server"></asp:TextBox><asp:Label ID="creditNumberMsg" runat="server" Text=""> </asp:Label>
+            <asp:TextBox ID="CreditCardNumber" runat="server" Width="215px"></asp:TextBox><asp:Label ID="creditNumberMsg" runat="server" Text=""> </asp:Label>
         </p>
         <p>
             Expiry Date:
-            <asp:TextBox ID="CreditCardExpireMonth" runat="server" Width="99px"></asp:TextBox><asp:Label ID="creditExpireMonthMsg" runat="server" Text=""> </asp:Label>
+            <asp:TextBox ID="CreditCardExpireMonth" runat="server" Width="112px"></asp:TextBox><asp:Label ID="creditExpireMonthMsg" runat="server" Text=""> </asp:Label>
             /
             <asp:TextBox ID="CreditCardExpireYear" runat="server" Width="118px"></asp:TextBox><asp:Label ID="creditExpireYearMsg" runat="server" Text=""> </asp:Label>
         </p>
@@ -107,13 +113,16 @@
 
             <asp:FileUpload ID="ImageUpload" runat="server" onchange="ShowImagePreview(this);"/>
             <br />
+            <br />
             <asp:RegularExpressionValidator ID="rev1" runat="server" ErrorMessage="Only jpeg,gif,png extensions allowed." ControlToValidate="ImageUpload" ForeColor="Red" ValidationExpression=".*\.([gG][iI][fF]|[jJ][pP][gG]|[jJ][pP][eE][gG]|[bB][mM][pP])$"></asp:RegularExpressionValidator>
         </p>
 
-        <asp:Label ID="AccountCreated" runat="server" Text=""> </asp:Label><br />
+        <asp:Label ID="AccountCreated" runat="server" Text=""> </asp:Label>
+            <br />
+            <br />
 
-        <asp:Button CausesValidation="true" ID="confirmPassword" runat="server" Text="Submit" OnClick="confirmPassword_Click" Width="241px" />
-          
+        <asp:Button CausesValidation="true" ID="confirmPassword" runat="server" Text="Submit" OnClick="confirmPassword_Click" Width="221px" Height="48px" CssClass="auto-style1" />
+      </fieldset>
     </form>
     </body>
 </html>

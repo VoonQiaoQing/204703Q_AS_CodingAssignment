@@ -26,6 +26,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         {
             //int result = Convert.ToInt32(Request.Cookies["wassup"].Value);
             string Email = Request.Cookies["Email"].Value;
+            updateLog(Email);
 
             //LockdownMessage.Text = "Account is locked down. Please try again after 15 minutes." + Email;
 
@@ -90,7 +91,8 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                     }
                     else
                     {
-                        LockdownMessage.Text = Email + "account is locked down. DO NOT LEAVE this page. Refresh this page after " + getRecoveryTime(Email) + ".";
+                        LockdownMessage.Text = Email + " account is locked down. DO NOT LEAVE this page. Refresh this page after " + getRecoveryTime(Email) + ".";
+                        LockdownMessage.ForeColor = System.Drawing.Color.Red;
                     }
                 }
             }
@@ -195,6 +197,37 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             finally { connection.Close(); }
             return s;
 
+        }
+
+        protected void updateLog(string Email)
+        {
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(AssignDBConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO AuditLog VALUES(@User, @Changes, @Operation, @OccurredAt)"))
+                    {
+                        using (SqlDataAdapter sda = new SqlDataAdapter())
+                        {
+                            cmd.CommandType = CommandType.Text;
+                            cmd.Parameters.AddWithValue("@User", Email);
+                            cmd.Parameters.AddWithValue("@Changes", "LOCKED");
+                            cmd.Parameters.AddWithValue("@Operation", "Account is locked from fail attempts");
+                            cmd.Parameters.AddWithValue("@OccurredAt", DateTime.Now.ToString());
+                            cmd.Connection = con;
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+                            con.Close();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
         }
 
     }
