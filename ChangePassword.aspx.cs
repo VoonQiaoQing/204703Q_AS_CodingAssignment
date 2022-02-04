@@ -19,6 +19,10 @@ using System.Web.Services;
 using System.Net.Mail;
 using System.Configuration;
 
+//Password Checker
+using System.Text.RegularExpressions;
+using System.Drawing;
+
 namespace _204703Q_AS_CodingAssignment_Ver2
 {
     public partial class ChangePassword : System.Web.UI.Page
@@ -38,10 +42,51 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             comparePassword.Text = Request.Cookies["LoggedIn"].Value;
         }
 
+        private int checkPassword(string password)
+        {
+            int score = 0;
+            //Score 0 very weak!
+
+            //Score 1 very weak!
+            if (password.Length < 12)
+            {
+                return 1;
+            }
+            else
+            {
+                score = 1;
+            }
+
+            //Score 2 weak!
+            if (Regex.IsMatch(password, "[a-z]"))
+            {
+                score++;
+
+            }
+            //Score 3 Medium!
+            if (Regex.IsMatch(password, "[A-Z]"))
+            {
+                score++;
+
+            }
+            //Score 4 Strong!
+            if (Regex.IsMatch(password, "[0-9]"))
+            {
+                score++;
+            }
+            //Score 5 Excellent!
+            if (Regex.IsMatch(password, "[^a-zA-Z0-9]"))
+            {
+                score++;
+
+            }
+            return score;
+        }
+
         protected void btn_ConfirmPassword_Click(object sender, EventArgs e)
         {
             //string pwd = get value from your Textbox
-            string pwd = tb_ChangePassword.Text.ToString().Trim();
+            string pwd = HttpUtility.HtmlEncode(tb_ChangePassword.Text.ToString().Trim());
             //Generate random "salt" 
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             byte[] saltByte = new byte[8];
@@ -81,20 +126,44 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             Key = cipher.Key;
             IV = cipher.IV;
 
-/*          DateTime defineCountDown = DateTime.Now.AddMinutes(1); //Define 1 min countdown
-            string newdateTime = defineCountDown.ToString();
-            updateChangePasswordTimer(newdateTime, email); //Update to DB
-*/
             DateTime currentTime = DateTime.Now; // Current Time
             DateTime getCountdown = Convert.ToDateTime(getChangePasswordTimer(email));
-                
-            //int result = DateTime.Compare(currentTime, countDown);
 
-            /*            The minimum age is the number of days before users are allowed to change a password. 
-             *            The maximum is the number of days after which users must change their password.
-             *            The default minimum is one day, both for Windows and the security baselines; 
-             *            the maximum defaults to 42 days for Windows and, until recently, 60 days in the 
-             *            security baselines.These settings are enabled in almost all default configurations.*/
+            int scores = checkPassword(tb_ChangePassword.Text);
+            string status = "";
+
+            switch (scores)
+            {
+                case 1:
+                    status = "Very Weak!";
+                    break;
+
+                case 2:
+                    status = "Weak!";
+                    break;
+
+                case 3:
+                    status = "Medium!";
+                    break;
+
+                case 4:
+                    status = "Strong!";
+                    break;
+
+                case 5:
+                    status = "Excellent!";
+                    break;
+
+                default:
+                    break;
+            }
+            lbl_PasswordStrength.Text = "Status: " + status;
+            if (scores < 4)
+            {
+                lbl_PasswordStrength.ForeColor = Color.Red;
+                Response.Redirect("ChangePassword.aspx", false);
+            }
+            //comparePassword.ForeColor = Color.Green;
 
             if (DateTime.Compare(currentTime, getCountdown).Equals(1)) //if countdown over, can change password
             {
@@ -116,7 +185,8 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                         }
                         else
                         {
-                            if (tb_ChangePassword.Text.ToString().Trim().Equals(tb_ConfirmPassword.Text.ToString().Trim()))
+
+                            if (pwd.Equals(HttpUtility.HtmlEncode(tb_ConfirmPassword.Text.ToString().Trim())))
                             {
                                 //replace with latest old password
                                 updatePassword1Hash(getPasswordHash(email), email);

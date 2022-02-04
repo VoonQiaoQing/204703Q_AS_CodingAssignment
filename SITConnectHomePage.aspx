@@ -9,10 +9,15 @@
         <div>
             <strong>SIT Connect Home Page<br />
             <br />
-                <asp:Button ID="changePassword" runat="server" Text="Change Password" OnClick="changePassword_Click"/>
+            <asp:Label ID="MustChangePassword" runat="server" Text=""></asp:Label>
             <br />
-            </strong></div>
-        <asp:Button ID="logOut" runat="server" Text="Log Out" OnClick="logOut_Click" />
+            <br />
+                <asp:Button ID="changePassword" runat="server" Text="Change Password" OnClick="changePassword_Click"/>
+            </strong>
+            <br />
+            <br />
+        <asp:Button ID="logOut" runat="server" Text="Log Out" OnClick="logOut_Click" Width="237px" />
+            </div>
     </form>
 </body>
 </html>

@@ -87,6 +87,15 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected global::System.Web.UI.WebControls.Button loginSubmit;
 
         /// <summary>
+        /// registerUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button registerUser;
+
+        /// <summary>
         /// lblMessage control.
         /// </summary>
         /// <remarks>
@@ -103,6 +112,15 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label1;
+
+        /// <summary>
+        /// LockdownMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LockdownMessage;
 
         /// <summary>
         /// emailconfirm control.

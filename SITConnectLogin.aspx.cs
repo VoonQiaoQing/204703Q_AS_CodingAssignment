@@ -28,30 +28,10 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         public class MyObject
         {
             public string success { get; set; }
-            public List<string> ErrorMessage { get; set; }
         }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            string userid = HttpUtility.HtmlEncode(loginEmail.Text.ToString().Trim());
-            DateTime currentTime = DateTime.Now; // Current Time
-            DateTime getMPCountdown = Convert.ToDateTime(getMustChangePasswordTimer(userid));
-
-            //define message to change password before 3 minutes
-
-            if ((DateTime.Compare(currentTime, getMPCountdown).Equals(-1)))
-            {
-                MustChangePassword.Text = "Please change your password in " + getMustChangePasswordTimer(userid);
-            }
-            else
-            {
-                MustChangePassword.Text = "Please change your password now to secure your account.";
-                //Response.Redirect("ChangePassword.aspx", false);
-
-                //MAKE OTP FIeld INVISIBLE
-                //Change Password Field visible
-                //After changes made, make Otp field visible
-            }
 
         }
 
@@ -78,7 +58,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         {
             string userid = HttpUtility.HtmlEncode(loginEmail.Text.ToString().Trim());
 
-            if (getEmailOTP(userid).Equals(tb_EmailOTP.Text))
+            if (getEmailOTP(userid).Equals(HttpUtility.HtmlEncode(tb_EmailOTP.Text.ToString().Trim())))
             {
                 Session["LoggedIn"] = userid;
 
@@ -90,6 +70,10 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                 Response.Cookies.Add(new HttpCookie("AuthToken", guid));
 
                 Response.Redirect("SITConnectHomePage.aspx", false);
+            }
+            else
+            {
+                EmailLabel.Text = "OTP is wrong";
             }
         }
 
@@ -137,17 +121,6 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
                                 emailconfirm.Visible = true;
 
-
-                                if (getEmailOTP(userid).Equals(tb_EmailOTP.Text.ToString().Trim()))
-                                {
-                                    Response.Cookies.Add(new HttpCookie("EmailOTP", EmailOTP.ToString()));
-                                    Response.Redirect("SITConnectHomePage.aspx", false);
-                                }
-                                else
-                                {
-                                    EmailLabel.Text = "OTP is wrong";
-                                }
-
                             }
                             else
                             {
@@ -159,14 +132,15 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
                                 updateRecoveryTime(newdateTime, userid);
 
-                                int result = DateTime.Compare(currentTime, countDown);
+                                //int result = DateTime.Compare(currentTime, countDown);
 
-                                Session["wassup"] = result;
+                                //Session["wassup"] = result;
                                 Session["Email"] = userid;
-                                Response.Cookies.Add(new HttpCookie("wassup", result.ToString()));
+                                //Response.Cookies.Add(new HttpCookie("wassup", result.ToString()));
                                 Response.Cookies.Add(new HttpCookie("Email", userid));
 
                                 Response.Redirect("LockAccount.aspx", false);
+
                             }
                         }
                         else
@@ -177,6 +151,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
                                 if (Convert.ToInt32(getAttempts(userid)) > 10)
                                 {
+                                    //LoginSection.Visible = false;
                                     DateTime countDown = DateTime.Now.AddMinutes(1);
                                     string newdateTime = countDown.ToString();
 
@@ -184,11 +159,11 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
                                     updateRecoveryTime(newdateTime, userid);
 
-                                    int result = DateTime.Compare(currentTime, countDown);
+                                    //int result = DateTime.Compare(currentTime, countDown);
 
-                                    Session["wassup"] = result;
+                                    //Session["wassup"] = result;
                                     Session["Email"] = userid;
-                                    Response.Cookies.Add(new HttpCookie("wassup", result.ToString()));
+                                    //Response.Cookies.Add(new HttpCookie("wassup", result.ToString()));
                                     Response.Cookies.Add(new HttpCookie("Email", userid));
 
                                     Response.Redirect("LockAccount.aspx", false);
@@ -207,6 +182,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
                                 if (Convert.ToInt32(getAttempts(userid)) > 10)
                                 {
+                                    //LoginSection.Visible = false;
                                     DateTime countDown = DateTime.Now.AddMinutes(1);
                                     string newdateTime = countDown.ToString();
 
@@ -214,12 +190,11 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
                                     updateRecoveryTime(newdateTime, userid);
 
-                                    int result = DateTime.Compare(currentTime, countDown);
+                                    //int result = DateTime.Compare(currentTime, countDown);
 
-
-                                    Session["wassup"] = result;
-                                    Session["Email"] = userid;;
-                                    Response.Cookies.Add(new HttpCookie("wassup", result.ToString()));
+                                    //Session["wassup"] = result;
+                                    Session["Email"] = userid;
+                                    //Response.Cookies.Add(new HttpCookie("wassup", result.ToString()));
                                     Response.Cookies.Add(new HttpCookie("Email", userid));
 
                                     Response.Redirect("LockAccount.aspx", false);
@@ -237,6 +212,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                             {
                                 if (Convert.ToInt32(getAttempts(userid)) > 10)
                                 {
+                                    //LoginSection.Visible = false;
                                     DateTime countDown = DateTime.Now.AddMinutes(1);
                                     string newdateTime = countDown.ToString();
 
@@ -244,11 +220,11 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
                                     updateRecoveryTime(newdateTime, userid);
 
-                                    int result = DateTime.Compare(currentTime, countDown);
+                                    //int result = DateTime.Compare(currentTime, countDown);
 
-                                    Session["wassup"] = result;
+                                    //Session["wassup"] = result;
                                     Session["Email"] = userid;
-                                    Response.Cookies.Add(new HttpCookie("wassup", result.ToString()));
+                                    //Response.Cookies.Add(new HttpCookie("wassup", result.ToString()));
                                     Response.Cookies.Add(new HttpCookie("Email", userid));
 
                                     Response.Redirect("LockAccount.aspx", false);
@@ -826,6 +802,11 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             {
                 throw ex;
             }
+        }
+
+        protected void registerUser_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("SITConnectRegistration.aspx", false);
         }
     }
 }

@@ -11,12 +11,10 @@
     
     <body>
         <form id="form1" runat="server">
-            <strong>SITCONNECT Login<br />
-                <br />
-            </strong>&nbsp;<asp:Label ID="MustChangePassword" runat="server" Text=""></asp:Label>
+        <strong>SITCONNECT Login<br /></strong>
+        <asp:Label ID="MustChangePassword" runat="server" Text=""></asp:Label>
         <br />
         <div id="sup" runat="server" visible="true">
-
         <p>Email:
             <asp:TextBox ID="loginEmail" runat="server"></asp:TextBox>
         </p>
@@ -41,13 +39,19 @@
         </script>
 
         <p>
-
         <asp:Button ID="loginSubmit" runat="server" Text="Confirm" Width="263px" OnClick="loginSubmit_Click" />
         </p>
 
+        <p>
+        <asp:Button ID="registerUser" runat="server" Text="Register New User" Width="263px" OnClick="registerUser_Click" />
+        </p>
+
         </div>
+
         <asp:label ID="lblMessage" runat="server" Text=""> </asp:label> 
         <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
+
+        <asp:Label ID="LockdownMessage" runat="server" Text=""></asp:Label>
 
         <br />
 

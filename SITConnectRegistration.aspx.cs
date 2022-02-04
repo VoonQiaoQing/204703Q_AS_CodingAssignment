@@ -124,55 +124,102 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                         @Key
                         @EmailVerified*/
 
-            if (Regex.IsMatch(firstName.Text.Trim(), "^[a-zA-Z]+$"))
+            if (Regex.IsMatch(firstName.Text.Trim(), "^[ a-zA-Z]+$"))
             {
-                if (Regex.IsMatch(lastName.Text.Trim(), "^[a-zA-Z]+$"))
+                if (Regex.IsMatch(lastName.Text.Trim(), "^[ a-zA-Z]+$"))
                 {
-                    if (Regex.IsMatch(CreditCardInfo.Text.Trim(), "^[0-9]+$"))
+                    if (Regex.IsMatch(CreditCardName.Text.Trim(), "^[ a-zA-Z]+$"))
                     {
-                        if (Regex.IsMatch(Email.Text.Trim(), "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"))
+                        if (Regex.IsMatch(CreditCardNumber.Text.Trim(), "^[0-9]{16}$"))
                         {
-
-                            //string pwd = get value from your Textbox
-                            string pwd = Password.Text.ToString().Trim();
-                            //Generate random "salt" 
-                            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-                            byte[] saltByte = new byte[8];
-                            //Fills array of bytes with a cryptographically strong sequence of random values.
-                            rng.GetBytes(saltByte);
-                            salt = Convert.ToBase64String(saltByte);
-                            SHA512Managed hashing = new SHA512Managed();
-                            string pwdWithSalt = pwd + salt;
-                            byte[] plainHash = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwd));
-                            byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
-                            finalHash = Convert.ToBase64String(hashWithSalt);
-                            RijndaelManaged cipher = new RijndaelManaged();
-                            cipher.GenerateKey();
-                            Key = cipher.Key;
-                            IV = cipher.IV;
-                            createAccount();
-
-                            string folderPath = Server.MapPath("~/Images/");
-
-                            //Check whether Directory (Folder) exists.
-                            if (!Directory.Exists(folderPath))
+                            if (Regex.IsMatch(CreditCardExpireMonth.Text.Trim(), "^((0[1-9])|(1[0-2]))$"))
                             {
-                                //If Directory (Folder) does not exists Create it.
-                                Directory.CreateDirectory(folderPath);
+                                if (Regex.IsMatch(CreditCardExpireYear.Text.Trim(), "^[0-9]{2}$"))
+                                {
+                                    if (Regex.IsMatch(CreditCardCCV.Text.Trim(), "^[0-9]{3}$"))
+                                    {
+                                        if (Regex.IsMatch(Email.Text.Trim(), "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"))
+                                        {
+
+                                            //getemail
+                                            if (Email.Text.Trim().Equals(getEmail(Email.Text.Trim())))
+                                            {
+                                                AccountCreated.Text = "Gmail Account already used. Please use a new Gmail account";
+                                            }
+                                            else
+                                            {
+                                                //string pwd = get value from your Textbox
+                                                string pwd = Password.Text.ToString().Trim();
+                                                //Generate random "salt" 
+                                                RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+                                                byte[] saltByte = new byte[8];
+                                                //Fills array of bytes with a cryptographically strong sequence of random values.
+                                                rng.GetBytes(saltByte);
+                                                salt = Convert.ToBase64String(saltByte);
+                                                SHA512Managed hashing = new SHA512Managed();
+                                                string pwdWithSalt = pwd + salt;
+                                                byte[] plainHash = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwd));
+                                                byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
+                                                finalHash = Convert.ToBase64String(hashWithSalt);
+                                                RijndaelManaged cipher = new RijndaelManaged();
+                                                cipher.GenerateKey();
+                                                Key = cipher.Key;
+                                                IV = cipher.IV;
+                                                createAccount();
+
+                                                string folderPath = Server.MapPath("~/Images/");
+
+                                                //Check whether Directory (Folder) exists.
+                                                if (!Directory.Exists(folderPath))
+                                                {
+                                                    //If Directory (Folder) does not exists Create it.
+                                                    Directory.CreateDirectory(folderPath);
+                                                }
+
+                                                //Save the File to the Directory (Folder).
+                                                ImageUpload.SaveAs(folderPath + Path.GetFileName(ImageUpload.FileName));
+
+                                                Response.Redirect("SITConnectLogin.aspx", false);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            emailMsg.Text = "Invalid Email.";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        creditCCVMsg.Text = "Invalid CCV.";
+                                    }
+                                }
+                                else
+                                {
+                                    creditExpireYearMsg.Text = "Invalid Year.";
+                                }
                             }
-
-                            //Save the File to the Directory (Folder).
-                            ImageUpload.SaveAs(folderPath + Path.GetFileName(ImageUpload.FileName));
-
-                            Response.Redirect("SITConnectLogin.aspx", false);
+                            else
+                            {
+                                creditExpireMonthMsg.Text = "Invalid Month.";
+                            }
+                        }
+                        else
+                        {
+                            creditNumberMsg.Text = "Invalid Input.";
                         }
                     }
+                    else
+                    {
+                        creditNameMsg.Text = "Invalid Input.";
+                    }
+                }
+                else
+                {
+                    lastNameMsg.Text = "Invalid Input.";
                 }
             }
-
             else
             {
-                return;
+                firstNameMsg.Text = "Invalid Input.";
             }
         }
 
@@ -187,16 +234,18 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             {
                 using (SqlConnection con = new SqlConnection(AssignDBConnectionString))
                 {
-                    using (SqlCommand cmd = new SqlCommand("INSERT INTO UserInfo VALUES(@FirstName, @LastName, @CreditCardInfo, @Email, @PasswordHash, @PasswordSalt, @DateOfBirth, @Photo, @IV, @Key, @LoginAttempts, @AccountLockdown, @RecoveryTime)"))
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO UserInfo VALUES(@FirstName, @LastName, @CreditCardNumber, @CreditCardName, @CreditCardSecurityCode, @CreditCardExpireMonth, @CreditCardExpireYear, @Email, @PasswordHash, @PasswordSalt, @DateOfBirth, @Photo, @IV, @Key, @LoginAttempts, @RecoveryTime, @EmailOTP, @OldPassword1Hash, @OldPassword1Salt, @OldPassword2Hash, @OldPassword2Salt, @ChangePasswordCountdown, @MustChangePasswordCountdown)"))
                     {
                         using (SqlDataAdapter sda = new SqlDataAdapter())
                         {
                             cmd.CommandType = CommandType.Text;
                             cmd.Parameters.AddWithValue("@FirstName", HttpUtility.HtmlEncode(firstName.Text.Trim()));
                             cmd.Parameters.AddWithValue("@LastName", HttpUtility.HtmlEncode(lastName.Text.Trim()));
-                            //cmd.Parameters.AddWithValue("@Nric", Convert.ToBase64String(encryptData(tb_nric.Text.Trim())));
-                            //cmd.Parameters.AddWithValue("@Nric", encryptData(tb_nric.Text.Trim()));
-                            cmd.Parameters.AddWithValue("@CreditCardInfo", HttpUtility.HtmlEncode(Convert.ToBase64String(encryptData(CreditCardInfo.Text.Trim()))));
+                            cmd.Parameters.AddWithValue("@CreditCardNumber", HttpUtility.HtmlEncode(Convert.ToBase64String(encryptData(CreditCardNumber.Text.Trim()))));
+                            cmd.Parameters.AddWithValue("@CreditCardName", HttpUtility.HtmlEncode(Convert.ToBase64String(encryptData(CreditCardName.Text))));
+                            cmd.Parameters.AddWithValue("@CreditCardSecurityCode", HttpUtility.HtmlEncode(Convert.ToBase64String(encryptData(CreditCardCCV.Text.Trim()))));
+                            cmd.Parameters.AddWithValue("@CreditCardExpireMonth", HttpUtility.HtmlEncode(Convert.ToBase64String(encryptData(CreditCardExpireMonth.Text.Trim()))));
+                            cmd.Parameters.AddWithValue("@CreditCardExpireYear", HttpUtility.HtmlEncode(Convert.ToBase64String(encryptData(CreditCardExpireYear.Text.Trim()))));
                             cmd.Parameters.AddWithValue("@Email", HttpUtility.HtmlEncode(Email.Text.Trim()));
                             cmd.Parameters.AddWithValue("@PasswordHash", HttpUtility.HtmlEncode(finalHash));
                             cmd.Parameters.AddWithValue("@PasswordSalt", HttpUtility.HtmlEncode(salt));
@@ -206,10 +255,20 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                             cmd.Parameters.AddWithValue("@IV", HttpUtility.HtmlEncode(Convert.ToBase64String(IV)));
                             cmd.Parameters.AddWithValue("@Key", HttpUtility.HtmlEncode(Convert.ToBase64String(Key)));
                             cmd.Parameters.AddWithValue("@LoginAttempts", 0);
-                            cmd.Parameters.AddWithValue("@AccountLockdown", false);
                             DateTime dateTime = DateTime.Now;
                             string newdateTime = dateTime.ToString();
                             cmd.Parameters.AddWithValue("@RecoveryTime", newdateTime);
+                            cmd.Parameters.AddWithValue("@EmailOTP", "");
+                            cmd.Parameters.AddWithValue("@OldPassword1Hash", "");
+                            cmd.Parameters.AddWithValue("@OldPassword1Salt", "");
+                            cmd.Parameters.AddWithValue("@OldPassword2Salt", ""); 
+                            cmd.Parameters.AddWithValue("@OldPassword2Hash", "");
+                            DateTime dateTimeMin = DateTime.Now.AddMinutes(1);
+                            DateTime dateTimeMax = DateTime.Now.AddMinutes(3);
+                            string newdateTimeMin = dateTime.ToString();
+                            string newdateTimeMax = dateTime.ToString();
+                            cmd.Parameters.AddWithValue("@ChangePasswordCountdown", newdateTimeMin);
+                            cmd.Parameters.AddWithValue("@MustChangePasswordCountdown", newdateTimeMax);
                             cmd.Connection = con;
                             con.Open();
                             cmd.ExecuteNonQuery();
@@ -252,6 +311,45 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
             finally { }
             return cipherText;
+        }
+
+        protected string getEmail(string userid)
+        {
+
+            string s = null;
+
+            SqlConnection connection = new SqlConnection(AssignDBConnectionString);
+            string sql = "select EMAIL FROM USERINFO WHERE Email=@EMAIL";
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@EMAIL", userid);
+
+            try
+            {
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (reader["EMAIL"] != null)
+                        {
+                            if (reader["EMAIL"] != DBNull.Value)
+                            {
+                                s = reader["EMAIL"].ToString();
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+
+            finally { connection.Close(); }
+            return s;
+
         }
     }
 }
