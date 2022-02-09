@@ -1,0 +1,62 @@
+﻿
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0 0 0 0;
+}
+
+.fieldset {
+    background-color: #eeeeee;
+    margin-left: 400px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    width: 400px;
+    padding-left: 50px;
+}
+
+legend {
+    background-color: gray;
+    color: white;
+    padding: 5px 10px;
+}
+
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+}
+
+.button:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.tb {
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: gainsboro;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 5px;
+    width: 305px;
+    transition: width 0.4s ease-in-out;
+}
+
+.tb:focus {
+    width: 80%;
+}
