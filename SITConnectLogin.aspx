@@ -60,8 +60,9 @@
                     </strong>
                 <br />
                 <br />
-                <asp:Button class="button" ID="OTPSubmit" Width="146px" runat="server" Text="Submit" OnClick="OTPSubmit_Click"  />&nbsp;
-                    <asp:Button class="button" ID="ResendCode" runat="server" Width="146px" Text="Resend Code" OnClick="ResendCode_Click" />
+                    <asp:Button class="button" ID="ResendCode" runat="server" Width="146px" Text="Resend Code" OnClick="ResendCode_Click" />&nbsp;
+                <asp:Button class="button" ID="OTPSubmit" Width="146px" runat="server" Text="Submit" OnClick="OTPSubmit_Click"  />
+                    
             </div>
     </fieldset>
     </form>
