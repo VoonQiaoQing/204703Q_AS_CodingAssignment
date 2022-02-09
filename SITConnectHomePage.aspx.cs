@@ -35,22 +35,34 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                 else
                 {
                     string Email = Request.Cookies["LoggedIn"].Value;
-                    //string userid = HttpUtility.HtmlEncode(loginEmail.Text.ToString().Trim());
+                    StationaryImage1.ImageUrl = "~/Images/stationaryHaul.jpg";
+                    StationaryImage2.ImageUrl = "~/Images/fountainPens.jpg";
+
+                    if (getImage(Email) != null)
+                    {
+                        DisplayImage.ImageUrl = "~/Images/OIP.jfif";
+                    }
+                    else {
+                        DisplayImage.ImageUrl = "~/Images/" + (getImage(Email));
+                    }
+
                     DateTime currentTime = DateTime.Now; // Current Time
                     DateTime getMPCountdown = Convert.ToDateTime(getMustChangePasswordTimer(Email));
 
                     //define message to change password before 3 minutes
-
-                    if (DateTime.Compare(currentTime, getMPCountdown).Equals(-1)) //current time earlier than 5 min
+                    if (DateTime.Compare(currentTime, getMPCountdown) < 0) //current time earlier than 5 min
                     {
                         updateLog(Email);
-                        MustChangePassword.Text = "Please change your password in " + getMustChangePasswordTimer(Email);
-                        
+                        MustChangePassword.Text = "Please change your password in " + getMustChangePasswordTimer(Email) + " !";
+                        MustChangePassword.ForeColor = System.Drawing.Color.Red;
                     }
                     else
                     {
-                        //MustChangePassword.Text = "Please change your password now to secure your account.";
                         Response.Redirect("ChangePassword.aspx", false);
+                    }
+                    if(Email.Equals("qqvoon@gmail.com"))
+                    {
+                        checkLogs.Visible = true;
                     }
                 }
             }
@@ -96,6 +108,48 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             Response.Redirect("ChangePassword.aspx", false);
         }
 
+        protected void checkLogs_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("AuditLog.aspx", false);
+        }
+        protected string getImage(string userid)
+        {
+
+            string s = null;
+
+            SqlConnection connection = new SqlConnection(AssignDBConnectionString);
+            string sql = "select Photo FROM USERINFO WHERE Email=@EMAIL";
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@EMAIL", userid);
+
+            try
+            {
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (reader["Photo"] != null)
+                        {
+                            if (reader["Photo"] != DBNull.Value)
+                            {
+                                s = reader["Photo"].ToString();
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+
+            finally { connection.Close(); }
+            return s;
+
+        }
 
         protected string getMustChangePasswordTimer(string userid)
         {

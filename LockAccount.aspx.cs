@@ -25,14 +25,14 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected void Page_Load(object sender, EventArgs e)
         {
             //int result = Convert.ToInt32(Request.Cookies["wassup"].Value);
-            string Email = Request.Cookies["Email"].Value;
+            string Email = Request.Cookies["LoggedIn"].Value;
             updateLog(Email);
 
             //LockdownMessage.Text = "Account is locked down. Please try again after 15 minutes." + Email;
 
-            if (Session["Email"] != null && Request.Cookies["Email"] != null)
+            if (Session["LoggedIn"] != null && Session["AuthToken"] != null && Request.Cookies["AuthToken"] != null)
             {
-                if (!Session["Email"].ToString().Equals(Request.Cookies["Email"].Value))
+                if (!Session["AuthToken"].ToString().Equals(Request.Cookies["AuthToken"].Value))
                 {
                     //Add 1 minute to datetime var and add to database
                     //Define now time
@@ -42,19 +42,23 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                     Session.Abandon();
                     Session.RemoveAll();
 
-                    if (Request.Cookies["wassup"] != null)
+                    if (Request.Cookies["ASP.NET_SessionId"] != null)
                     {
-                        Response.Cookies["wassup"].Value = string.Empty;
-                        Response.Cookies["wassup"].Expires = DateTime.Now.AddMonths(-20);
+                        Response.Cookies["ASP.NET_SessionId"].Value = string.Empty;
+                        Response.Cookies["ASP.NET_SessionId"].Expires = DateTime.Now.AddMonths(-20);
+                    }
+                    if (Request.Cookies["AuthToken"] != null)
+                    {
+                        Response.Cookies["AuthToken"].Value = string.Empty;
+                        Response.Cookies["AuthToken"].Expires = DateTime.Now.AddMonths(-20);
+                    }
+                    if (Request.Cookies["LoggedIn"] != null)
+                    {
+                        Response.Cookies["LoggedIn"].Value = string.Empty;
+                        Response.Cookies["LoggedIn"].Expires = DateTime.Now.AddMonths(-20);
                     }
 
-                    if (Request.Cookies["Email"] != null)
-                    {
-                        Response.Cookies["Email"].Value = string.Empty;
-                        Response.Cookies["Email"].Expires = DateTime.Now.AddMonths(-20);
-                    }
-
-                    //updateLoginAttempts(Email);
+                    updateLoginAttempts(HttpUtility.HtmlEncode(Email));
 
                     Response.Redirect("SITConnectLogin.aspx", false);
                 }
@@ -74,18 +78,22 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                         Session.Abandon();
                         Session.RemoveAll();
 
-                        if (Request.Cookies["wassup"] != null)
+                        if (Request.Cookies["ASP.NET_SessionId"] != null)
                         {
-                            Response.Cookies["wassup"].Value = string.Empty;
-                            Response.Cookies["wassup"].Expires = DateTime.Now.AddMonths(-20);
+                            Response.Cookies["ASP.NET_SessionId"].Value = string.Empty;
+                            Response.Cookies["ASP.NET_SessionId"].Expires = DateTime.Now.AddMonths(-20);
                         }
-
-                        if (Request.Cookies["Email"] != null)
+                        if (Request.Cookies["AuthToken"] != null)
                         {
-                            Response.Cookies["Email"].Value = string.Empty;
-                            Response.Cookies["Email"].Expires = DateTime.Now.AddMonths(-20);
+                            Response.Cookies["AuthToken"].Value = string.Empty;
+                            Response.Cookies["AuthToken"].Expires = DateTime.Now.AddMonths(-20);
                         }
-
+                        if (Request.Cookies["LoggedIn"] != null)
+                        {
+                            Response.Cookies["LoggedIn"].Value = string.Empty;
+                            Response.Cookies["LoggedIn"].Expires = DateTime.Now.AddMonths(-20);
+                        }
+                        
                         updateLoginAttempts(Email);
                         Response.Redirect("SITConnectLogin.aspx", false);
                     }

@@ -20,6 +20,9 @@ using System.Net.Mail;
 using System.Configuration;
 using System.Diagnostics;
 
+using System.Text.RegularExpressions;
+using System.Drawing;
+
 namespace _204703Q_AS_CodingAssignment_Ver2
 {
     public partial class SITConnectLogin : System.Web.UI.Page
@@ -34,14 +37,13 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected void Page_Load(object sender, EventArgs e)
         {
 
-
         }
 
         protected void ResendCode_Click(object sender, EventArgs e)
         {
             if (ValidateCaptcha())
             {
-                string userid = HttpUtility.HtmlEncode(loginEmail.Text.ToString().Trim());
+                string userid = HttpUtility.HtmlEncode(tb_loginEmail.Text.ToString().Trim());
                 Random ran = new Random();
 
                 int EmailOTP = ran.Next(100000, 999999);
@@ -56,34 +58,11 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             }
         }
 
-        protected void submitorfail_Click(object sender, EventArgs e)
-        {
-            string userid = HttpUtility.HtmlEncode(loginEmail.Text.ToString().Trim());
-
-            if (getEmailOTP(userid).Equals(HttpUtility.HtmlEncode(tb_EmailOTP.Text.ToString().Trim())))
-            {
-                Session["LoggedIn"] = userid;
-
-                string guid = Guid.NewGuid().ToString();
-                Session["AuthToken"] = guid;
-
-                //Session["Email"] = userid;
-                Response.Cookies.Add(new HttpCookie("LoggedIn", userid));
-                Response.Cookies.Add(new HttpCookie("AuthToken", guid));
-
-                Response.Redirect("SITConnectHomePage.aspx", false);
-            }
-            else
-            {
-                EmailLabel.Text = "Email OTP is wrong. Please check your OTP or request a new one.";
-            }
-        }
 
         protected void loginSubmit_Click(object sender, EventArgs e)
-        {
-            //Response.Write("<script>window.alert('before getDBHash.')</script>");         
-            string pwd = HttpUtility.HtmlEncode(loginPassword.Text.ToString().Trim());
-            string userid = HttpUtility.HtmlEncode(loginEmail.Text.ToString().Trim());
+        {     
+            string pwd = HttpUtility.HtmlEncode(tb_loginPassword.Text.ToString().Trim());
+            string userid = HttpUtility.HtmlEncode(tb_loginEmail.Text.ToString().Trim());
 
             SHA512Managed hashing = new SHA512Managed();
             string dbHash = getDBHash(userid);
@@ -98,15 +77,14 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                     byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
                     string userHash = Convert.ToBase64String(hashWithSalt);
 
-                    //qqvooN@gmail.com
                     if (ValidateCaptcha())
                     {
-                        if (userHash.Equals(dbHash))
+                        if (userHash.Equals(dbHash)) //Credentails match
                         {
-                            if (Convert.ToInt32(getAttempts(userid)) < 3)
+                            if (Convert.ToInt32(getAttempts(userid)) < 3) //Attempts lower than 3
                             {
                                 //PLEASE ADD UPDATE ATTEMPTS TO 0 TO CLEAR IT
-                                updateLoginAttempts(userid);
+                                updateLoginAttemptsto0(userid);
 
                                 Random ran = new Random();
 
@@ -116,130 +94,67 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                                 string Subj = "Confirm your email for SITConnect Login!";
                                 string Message = "Your 6 Digit OTP is " + EmailOTP;
 
-                                //REOPEN HTIS FOR EMAIL SERVER
+                                //REOPEN
                                 SendEmail(ToEmail, Subj, Message);
 
                                 updateEmailOTP(EmailOTP.ToString(), userid);
 
-                                emailconfirm.Visible = true;
+                                OTPField.Visible = true;
 
                             }
-                            else
+                            else  //Attempts higher than 3
                             {
-                                //LoginSection.Visible = false;
-                                DateTime countDown = DateTime.Now.AddMinutes(1);
-                                string newdateTime = countDown.ToString();
-
+                                DateTime endCountdown = DateTime.Now.AddMinutes(1);
+                                string endCountdownString = endCountdown.ToString();
                                 DateTime currentTime = DateTime.Now;
 
-                                updateRecoveryTime(newdateTime, userid);
+                                if (DateTime.Compare(currentTime, Convert.ToDateTime(getRecoveryTime(userid))).Equals(1))
+                                {
+                                    updateRecoveryTime(endCountdownString, userid);
+                                }
 
-                                //int result = DateTime.Compare(currentTime, countDown);
+                                Session["LoggedIn"] = userid;
 
-                                //Session["wassup"] = result;
-                                Session["Email"] = userid;
-                                //Response.Cookies.Add(new HttpCookie("wassup", result.ToString()));
-                                Response.Cookies.Add(new HttpCookie("Email", userid));
+                                string guid = Guid.NewGuid().ToString();
+                                Session["AuthToken"] = guid;
+
+                                Response.Cookies.Add(new HttpCookie("LoggedIn", userid));
+                                Response.Cookies.Add(new HttpCookie("AuthToken", guid));
 
                                 Response.Redirect("LockAccount.aspx", false);
-
                             }
                         }
-                        else
+                        else //Credentails does not match
                         {
-                            //qqvooN@gmail.com
-                            if (userid.Equals(getEmail(userid)) == false) //email
+                            if (Convert.ToInt32(getAttempts(userid)) > 2)
                             {
+                                DateTime endCountdown = DateTime.Now.AddMinutes(1);
+                                string endCountdownString = endCountdown.ToString();
+                                DateTime currentTime = DateTime.Now;
 
-                                if (Convert.ToInt32(getAttempts(userid)) > 3)
+                                if (DateTime.Compare(currentTime, Convert.ToDateTime(getRecoveryTime(userid))).Equals(1))
                                 {
-                                    //LoginSection.Visible = false;
-                                    DateTime countDown = DateTime.Now.AddMinutes(1);
-                                    string newdateTime = countDown.ToString();
-
-                                    DateTime currentTime = DateTime.Now;
-
-                                    updateRecoveryTime(newdateTime, userid);
-
-                                    //int result = DateTime.Compare(currentTime, countDown);
-
-                                    //Session["wassup"] = result;
-                                    Session["Email"] = userid;
-                                    //Response.Cookies.Add(new HttpCookie("wassup", result.ToString()));
-                                    Response.Cookies.Add(new HttpCookie("Email", userid));
-
-                                    Response.Redirect("LockAccount.aspx", false);
+                                    updateRecoveryTime(endCountdownString, userid);
                                 }
-                                else
-                                {
-                                    int increase = Convert.ToInt32(getAttempts(userid)) + 1;
-                                    updateAttempts(increase, userid);
 
-                                    Label1.Text = "Email or Password is wrong. Please try again. Attempts: " + getAttempts(userid).ToString() + "/3";
-                                }
+                                Session["LoggedIn"] = userid;
+
+                                string guid = Guid.NewGuid().ToString();
+                                Session["AuthToken"] = guid;
+
+                                Response.Cookies.Add(new HttpCookie("LoggedIn", userid));
+                                Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+
+                                Response.Redirect("LockAccount.aspx", false);
                             }
-
-                            if (userHash.Equals(dbHash) == false)
-                            { //password
-
-                                if (Convert.ToInt32(getAttempts(userid)) > 3)
-                                {
-                                    //LoginSection.Visible = false;
-                                    DateTime countDown = DateTime.Now.AddMinutes(1);
-                                    string newdateTime = countDown.ToString();
-
-                                    DateTime currentTime = DateTime.Now;
-
-                                    updateRecoveryTime(newdateTime, userid);
-
-                                    //int result = DateTime.Compare(currentTime, countDown);
-
-                                    //Session["wassup"] = result;
-                                    Session["Email"] = userid;
-                                    //Response.Cookies.Add(new HttpCookie("wassup", result.ToString()));
-                                    Response.Cookies.Add(new HttpCookie("Email", userid));
-
-                                    Response.Redirect("LockAccount.aspx", false);
-                                }
-                                else
-                                {
-                                    int increase = Convert.ToInt32(getAttempts(userid)) + 1;
-                                    updateAttempts(increase, userid);
-
-                                    Label1.Text = "Email or Password is wrong. Please try again. Attempts: " + getAttempts(userid).ToString() + "/3";
-                                }
-                            }
-
                             else
                             {
-                                if (Convert.ToInt32(getAttempts(userid)) > 3)
-                                {
-                                    //LoginSection.Visible = false;
-                                    DateTime countDown = DateTime.Now.AddMinutes(1);
-                                    string newdateTime = countDown.ToString();
+                                int increase = Convert.ToInt32(getAttempts(userid)) + 1;
+                                increaseAttempts(increase, userid);
 
-                                    DateTime currentTime = DateTime.Now;
-
-                                    updateRecoveryTime(newdateTime, userid);
-
-                                    //int result = DateTime.Compare(currentTime, countDown);
-
-                                    //Session["wassup"] = result;
-                                    Session["Email"] = userid;
-                                    //Response.Cookies.Add(new HttpCookie("wassup", result.ToString()));
-                                    Response.Cookies.Add(new HttpCookie("Email", userid));
-
-                                    Response.Redirect("LockAccount.aspx", false);
-                                }
-                                else
-                                {
-                                    int increase = Convert.ToInt32(getAttempts(userid)) + 1;
-                                    updateAttempts(increase, userid);
-
-                                    Label1.Text = "Email or Password is wrong. Please try again. Attempts: " + getAttempts(userid).ToString() + "/3";
-                                }
+                                loginFail.Text = "Email or Password is wrong. Please try again. Attempts: " + getAttempts(userid).ToString() + "/3";
+                                loginFail.ForeColor = Color.Red;
                             }
-
                         }
                     }
                 }
@@ -257,7 +172,6 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
         }
 
-        //Maybe replace with Twilio and SendGrid, send up 100 messages per day
         protected static void SendEmail(string ToEmail, string Subj, string Message)
         {
             string HostAdd = ConfigurationManager.AppSettings["Host"].ToString();
@@ -365,7 +279,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
         }
 
-        protected string updateLoginAttempts(string userid)
+        protected string updateLoginAttemptsto0(string userid)
         {
 
             string s = null;
@@ -642,7 +556,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
         }
 
-        protected string updateAttempts(int attemptvalues, string userid)
+        protected string increaseAttempts(int attemptvalues, string userid)
         {
 
             string s = null;
@@ -767,10 +681,10 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             //When user submits the recaptcha form, the user gets a response POST parameter. 
             //captchaResponse consist of the user click pattern. Behaviour analytics! AI :) 
             string captchaResponse = Request.Form["g-recaptcha-response"];
-
+            string reCaptchaSecret = ConfigurationManager.AppSettings["CaptchaSecret"].ToString();
             //To send a GET request to Google along with the response and Secret key.
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create
-           (" https://www.google.com/recaptcha/api/siteverify?secret=6Lda1kMeAAAAAE4swsvrJVMVM9Y8fEawDslsOJeg &response=" + captchaResponse);
+           (" https://www.google.com/recaptcha/api/siteverify?secret=" + reCaptchaSecret +"&response=" + captchaResponse);
 
 
             try
@@ -785,7 +699,6 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                         string jsonResponse = readStream.ReadToEnd();
 
                         //To show the JSON response string for learning purpose
-                        lbl_gScore.Text = jsonResponse.ToString();
 
                         JavaScriptSerializer js = new JavaScriptSerializer();
 
@@ -810,6 +723,29 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected void registerUser_Click(object sender, EventArgs e)
         {
             Response.Redirect("SITConnectRegistration.aspx", false);
+        }
+
+        protected void OTPSubmit_Click(object sender, EventArgs e)
+        {
+            string userid = HttpUtility.HtmlEncode(tb_loginEmail.Text.ToString().Trim());
+
+            if (getEmailOTP(userid).Equals(HttpUtility.HtmlEncode(tb_EmailOTP.Text.ToString().Trim())))
+            {
+                Session["LoggedIn"] = userid;
+
+                string guid = Guid.NewGuid().ToString();
+                Session["AuthToken"] = guid;
+
+                //Session["Email"] = userid;
+                Response.Cookies.Add(new HttpCookie("LoggedIn", userid));
+                Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+
+                Response.Redirect("SITConnectHomePage.aspx", false);
+            }
+            else
+            {
+                EmailLabel.Text = "Email OTP is wrong. Please check your OTP or request a new one.";
+            }
         }
     }
 }

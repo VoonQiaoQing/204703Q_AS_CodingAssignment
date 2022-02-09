@@ -38,7 +38,21 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["LoggedIn"] != null && Session["AuthToken"] != null && Request.Cookies["AuthToken"] != null)
+            {
+                if (!Session["AuthToken"].ToString().Equals(Request.Cookies["AuthToken"].Value))
+                {
+                    Response.Redirect("LoginForm.aspx", false);
+                }
+                else
+                {
 
+                }
+            }
+            else
+            {
+                Response.Redirect("LoginForm.aspx", false);
+            }
         }
 
         private int checkPassword(string password)
@@ -156,7 +170,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
                 default:
                     break;
             }
-            lbl_PasswordStrength.Text = "Status: " + status;
+            lbl_PasswordStrength.Text = " Status: " + status;
             if (scores < 4)
             {
                 lbl_PasswordStrength.ForeColor = Color.Red;

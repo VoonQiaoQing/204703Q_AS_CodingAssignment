@@ -24,13 +24,13 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// MustChangePassword control.
+        /// DisplayImage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label MustChangePassword;
+        protected global::System.Web.UI.WebControls.Image DisplayImage;
 
         /// <summary>
         /// changePassword control.
@@ -42,6 +42,15 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected global::System.Web.UI.WebControls.Button changePassword;
 
         /// <summary>
+        /// checkLogs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button checkLogs;
+
+        /// <summary>
         /// logOut control.
         /// </summary>
         /// <remarks>
@@ -49,5 +58,32 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button logOut;
+
+        /// <summary>
+        /// MustChangePassword control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label MustChangePassword;
+
+        /// <summary>
+        /// StationaryImage1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image StationaryImage1;
+
+        /// <summary>
+        /// StationaryImage2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image StationaryImage2;
     }
 }

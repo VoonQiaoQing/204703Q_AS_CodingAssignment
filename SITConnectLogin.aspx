@@ -1,35 +1,28 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SITConnectLogin.aspx.cs" Inherits="_204703Q_AS_CodingAssignment_Ver2.SITConnectLogin" %>
 
 <!DOCTYPE html>
+<link rel="stylesheet" href="css/style.css">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head runat="server">
         <title></title>
         <script src="https://www.google.com/recaptcha/api.js?render=6Lda1kMeAAAAAGqMZQEK3toLQzak0tAx1duE75er"></script>
-
     </head>
     
     <body>
         <form id="form1" runat="server">
-        <fieldset>
-        
+        <fieldset class="fieldset">
         <legend><strong>SITCONNECT Login</strong><br /></legend>
 
-        <div id="sup" runat="server" visible="true">
-        <p>Email:
-            <asp:TextBox ID="loginEmail" runat="server" Width="244px"></asp:TextBox>
+        <p>Email<br />
+            <asp:TextBox class="tb" ID="tb_loginEmail" runat="server"></asp:TextBox>
         </p>
 
-
-        <p>Password:
-            <asp:TextBox ID="loginPassword" runat="server" Width="219px"></asp:TextBox>
+        <p>Password<br />
+            <asp:TextBox class="tb" ID="tb_loginPassword" TextMode="Password" runat="server"></asp:TextBox>
         </p>
 
-        <!--<asp:LinkButton ID="LinkButton1" runat="server">Forgot Password?</asp:LinkButton>
-
-        <div class="g-recaptcha" data-sitekey="6LfUt0IeAAAAADgdE6xzv0A3xhlhenlHc6krTSof"></div>-->
         <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response"/>
-        <!--<asp:label ID="lbl_gScore" runat="server" EnableViewState="false"> </asp:label> -->
 
         <script>
         grecaptcha.ready(function () {
@@ -39,37 +32,37 @@
             }); 
         </script>
 
-        <p>
-        <asp:Button ID="registerUser" runat="server" Text="Register New User" Width="146px" OnClick="registerUser_Click" />
-        <asp:Button ID="loginSubmit" runat="server" Text="Confirm" Width="148px" OnClick="loginSubmit_Click" />
-        </p>
+            <strong>
 
-        </div>
-
-        <asp:label ID="lblMessage" runat="server" Text=""> </asp:label> 
-        <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
-
-        <asp:Label ID="LockdownMessage" runat="server" Text=""></asp:Label>
-
+        <asp:Label ID="loginFail" runat="server" Text=""></asp:Label>
+            </strong>
+        <br />        
         <br />
-
-        <br />
-        
-        <fieldset>
-            <legend><strong>Email Confirmation</strong></legend>
-            <div id="emailconfirm"  runat="server" visible="false">
-            <br />
-            A 6 digit code has been send to your email.<br />
-            <br />
+        <asp:Button class="button" ID="registerUser" runat="server" Text="Register New User" Width="146px" OnClick="registerUser_Click" />
             
-            6 Digit Code: <asp:TextBox ID="tb_EmailOTP" runat="server"></asp:TextBox>
-            <br />
-            <br />
-            <asp:Button ID="submitorfail" Width="146px" runat="server" Text="Submit" OnClick="submitorfail_Click" />&nbsp;<asp:Button ID="ResendCode" runat="server" Width="146px" Text="Resend Code" OnClick="ResendCode_Click" />
-            <br />
-            <br />
-            <asp:Label ID="EmailLabel" runat="server" Text=""></asp:Label>
-        </div>
+        <asp:Button class="button" ID="loginSubmit" runat="server" Text="Confirm" Width="146px" OnClick="loginSubmit_Click" />
+
+        <br />
+        <br />        
+    </fieldset>
+                    <fieldset class="fieldset" id="OTPField" runat="server" visible="false">
+                <legend><strong>Email Confirmation</strong></legend>
+                <div>
+                <br />
+                    <strong>A 6-digit Verification Code has been sent to your email.</strong><br />
+                <br />
+                6 Digit Code <br />
+                    <asp:TextBox class="tb" ID="tb_EmailOTP" runat="server"></asp:TextBox>
+                <br />
+                <br />
+                    <strong>
+                <asp:Label ID="EmailLabel" runat="server" Text=""></asp:Label>
+                    </strong>
+                <br />
+                <br />
+                <asp:Button class="button" ID="OTPSubmit" Width="146px" runat="server" Text="Submit" OnClick="OTPSubmit_Click"  />&nbsp;
+                    <asp:Button class="button" ID="ResendCode" runat="server" Width="146px" Text="Resend Code" OnClick="ResendCode_Click" />
+            </div>
     </fieldset>
     </form>
 

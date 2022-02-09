@@ -2,7 +2,7 @@
 
 
 <!DOCTYPE html>
-
+<link rel="stylesheet" href="css/style.css">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 
@@ -60,49 +60,58 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <fieldset>
+        <fieldset class="fieldset">
         <legend><strong>Registration Form</strong></legend>
         <p>
-            First Name:
-            <asp:TextBox ID="firstName" runat="server" Width="285px"></asp:TextBox><asp:Label ID="firstNameMsg" runat="server" Text=""> </asp:Label>
+            First Name<br />
+            <asp:TextBox class="tb" ID="firstName" runat="server" ></asp:TextBox>
+            <br /><asp:Label ID="firstNameMsg" runat="server" Text=""> </asp:Label>
         </p>
         <p>
-            Last Name:
-            <asp:TextBox ID="lastName" runat="server" Width="285px"></asp:TextBox><asp:Label ID="lastNameMsg" runat="server" Text=""> </asp:Label>
+            Last Name<br />
+            <asp:TextBox class="tb" ID="lastName" runat="server"></asp:TextBox>
+            <br /><asp:Label ID="lastNameMsg" runat="server" Text=""> </asp:Label>
         </p>
         <p>
-            Credit Card Name:
-            <asp:TextBox ID="CreditCardName" runat="server" Width="237px"></asp:TextBox><asp:Label ID="creditNameMsg" runat="server" Text=""> </asp:Label>
+            Credit Card Name<br />
+            <asp:TextBox class="tb" ID="CreditCardName" runat="server" ></asp:TextBox>
+            <br /><asp:Label ID="creditNameMsg" runat="server" Text=""> </asp:Label>
         </p>
         <p>
-            Credit Card Number:
-            <asp:TextBox ID="CreditCardNumber" runat="server" Width="215px"></asp:TextBox><asp:Label ID="creditNumberMsg" runat="server" Text=""> </asp:Label>
+            Credit Card Number<br />
+            <asp:TextBox class="tb" ID="CreditCardNumber" runat="server" ></asp:TextBox>
+            <br /><asp:Label ID="creditNumberMsg" runat="server" Text=""> </asp:Label>
         </p>
         <p>
-            Expiry Date:
-            <asp:TextBox ID="CreditCardExpireMonth" runat="server" Width="112px"></asp:TextBox><asp:Label ID="creditExpireMonthMsg" runat="server" Text=""> </asp:Label>
+            Expiry Date<br />
+            <asp:TextBox class="tb" ID="CreditCardExpireMonth" runat="server" Width="145px"></asp:TextBox>
             /
-            <asp:TextBox ID="CreditCardExpireYear" runat="server" Width="118px"></asp:TextBox><asp:Label ID="creditExpireYearMsg" runat="server" Text=""> </asp:Label>
+            <asp:TextBox class="tb" ID="CreditCardExpireYear" runat="server" Width="145px"></asp:TextBox>
+            <br /><asp:Label ID="creditExpireMonthMsg" runat="server" Text=""> </asp:Label>
+            <asp:Label ID="creditExpireYearMsg" runat="server" Text=""> </asp:Label>
         </p>
         <p>
-            CCV:
-            <asp:TextBox ID="CreditCardCCV" runat="server"></asp:TextBox><asp:Label ID="creditCCVMsg" runat="server" Text=""> </asp:Label>
+            CCV<br />
+            <asp:TextBox class="tb" ID="CreditCardCCV" runat="server"></asp:TextBox>
+            <br /><asp:Label ID="creditCCVMsg" runat="server" Text=""> </asp:Label>
         </p>
         <p>
-            Email Address: <asp:TextBox ID="Email" runat="server" Width="194px"></asp:TextBox>
+            Email Address<br /><asp:TextBox class="tb" ID="Email" runat="server" ></asp:TextBox>
+            <br />
             <asp:Label ID="emailMsg" runat="server" Text=""> </asp:Label>
+            <asp:Label ID="AccountCreated" runat="server" Text=""> </asp:Label>
         </p>
 
         
-         <p> Password:
-            <asp:TextBox ID="Password" runat="server" Width="241px" onkeyup="javascript:validate()"></asp:TextBox>
-            <asp:Label ID="lbl_pwdchecker" runat="server" Text=""> PasswordChecker </asp:Label>
+         <p> Password<br />
+            <asp:TextBox ID="Password" class="tb" TextMode="Password" runat="server" onkeyup="javascript:validate()"></asp:TextBox>
+            <br /><asp:Label ID="lbl_pwdchecker" runat="server" Text=""> </asp:Label>
         </p>
-
+            
         <p>
-            Date of Birth:
-            <asp:TextBox ID="DateofBirth" runat="server" type="date" Width="207px"></asp:TextBox>
-            <asp:Label ID="DateofBirthMsg" runat="server" Text=""> </asp:Label>
+            Date of Birth<br />
+            <asp:TextBox ID="DateofBirth" class="tb" runat="server" type="date"></asp:TextBox>
+            <br /><asp:Label ID="DateofBirthMsg" runat="server" Text=""> </asp:Label>
         </p>
 
         <p>
@@ -115,13 +124,10 @@
             <br />
             <br />
             <asp:RegularExpressionValidator ID="rev1" runat="server" ErrorMessage="Only jpeg,gif,png extensions allowed." ControlToValidate="ImageUpload" ForeColor="Red" ValidationExpression=".*\.([gG][iI][fF]|[jJ][pP][gG]|[jJ][pP][eE][gG]|[bB][mM][pP])$"></asp:RegularExpressionValidator>
+            <br /><asp:Label ID="NoImageMsg" runat="server" Text=""> </asp:Label>
         </p>
 
-        <asp:Label ID="AccountCreated" runat="server" Text=""> </asp:Label>
-            <br />
-            <br />
-
-        <asp:Button CausesValidation="true" ID="confirmPassword" runat="server" Text="Submit" OnClick="confirmPassword_Click" Width="221px" Height="48px" CssClass="auto-style1" />
+        <asp:Button class="button" CausesValidation="true" ID="confirmPassword" runat="server" Text="Submit" OnClick="confirmPassword_Click"/>
       </fieldset>
     </form>
     </body>

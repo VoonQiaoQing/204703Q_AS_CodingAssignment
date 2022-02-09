@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ChangePassword.aspx.cs" Inherits="_204703Q_AS_CodingAssignment_Ver2.ChangePassword" %>
 
 <!DOCTYPE html>
-
+<link rel="stylesheet" href="css/style.css">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Change Password</title>
@@ -41,22 +41,22 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <fieldset>
+        <fieldset class="fieldset">
             <legend><strong>Change Password</strong></legend>
             <br />
             <div>
                 New Password:<strong>
-            <asp:TextBox ID="tb_ChangePassword" runat="server" onkeyup="javascript:validate()"></asp:TextBox><asp:Label ID="lbl_PasswordStrength" runat="server" Text=""> ...</asp:Label>
+            <asp:TextBox class="tb" ID="tb_ChangePassword" TextMode="Password" runat="server" onkeyup="javascript:validate()"></asp:TextBox><br /><asp:Label ID="lbl_PasswordStrength" runat="server" Text="">...</asp:Label>
             <br />
             <br />
             </strong>Confirm Password:<strong>
-            <asp:TextBox ID="tb_ConfirmPassword" runat="server"></asp:TextBox>
+            <asp:TextBox class="tb" ID="tb_ConfirmPassword" TextMode="Password" runat="server"></asp:TextBox>
             <br />
             <br />
             <asp:Label ID="comparePassword" runat="server" Text=""></asp:Label>
             <br />
             <br />
-            <asp:Button ID="btn_ConfirmPassword" runat="server" Text="Submit" OnClick="btn_ConfirmPassword_Click"/>
+            <asp:Button class="button" ID="btn_ConfirmPassword" runat="server" Text="Submit" OnClick="btn_ConfirmPassword_Click"/>
             </strong></div>
         </fieldset>
     </form>

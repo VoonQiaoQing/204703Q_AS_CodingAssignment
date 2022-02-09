@@ -105,15 +105,6 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected global::System.Web.UI.WebControls.TextBox CreditCardExpireMonth;
 
         /// <summary>
-        /// creditExpireMonthMsg control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label creditExpireMonthMsg;
-
-        /// <summary>
         /// CreditCardExpireYear control.
         /// </summary>
         /// <remarks>
@@ -121,6 +112,15 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox CreditCardExpireYear;
+
+        /// <summary>
+        /// creditExpireMonthMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label creditExpireMonthMsg;
 
         /// <summary>
         /// creditExpireYearMsg control.
@@ -166,6 +166,15 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label emailMsg;
+
+        /// <summary>
+        /// AccountCreated control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label AccountCreated;
 
         /// <summary>
         /// Password control.
@@ -231,13 +240,13 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected global::System.Web.UI.WebControls.RegularExpressionValidator rev1;
 
         /// <summary>
-        /// AccountCreated control.
+        /// NoImageMsg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label AccountCreated;
+        protected global::System.Web.UI.WebControls.Label NoImageMsg;
 
         /// <summary>
         /// confirmPassword control.

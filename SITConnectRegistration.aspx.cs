@@ -76,54 +76,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
         protected void confirmPassword_Click(object sender, EventArgs e)
         {
-            int scores = checkPassword(Password.Text);
-            string status = "";
-
-            switch (scores)
-            {
-                case 1:
-                    status = "Very Weak!";
-                    break;
-
-                case 2:
-                    status = "Weak!";
-                    break;
-
-                case 3:
-                    status = "Medium!";
-                    break;
-
-                case 4:
-                    status = "Strong!";
-                    break;
-
-                case 5:
-                    status = "Excellent!";
-                    break;
-
-                default:
-                    break;
-            }
-            lbl_pwdchecker.Text = "Status: " + status;
-            if (scores < 4)
-            {
-                lbl_pwdchecker.ForeColor = Color.Red;
-                return;
-            }
-            lbl_pwdchecker.ForeColor = Color.Green;
-
-            /*          @FirstName
-                        @LastName
-                        @CreditCardInfo
-                        @Email
-                        @PasswordHash
-                        @PasswordSalt
-                        @DateOfBirth
-                        @Photo
-                        @IV
-                        @Key
-                        @EmailVerified*/
-
+            
             if (Regex.IsMatch(firstName.Text.Trim(), "^[ a-zA-Z]+$"))
             {
                 firstNameMsg.Text = "";
@@ -154,54 +107,119 @@ namespace _204703Q_AS_CodingAssignment_Ver2
 
                                         if (Regex.IsMatch(Email.Text.Trim(), "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"))
                                         {
+                                            AccountCreated.Text = "";
                                             emailMsg.Text = "";
                                             
                                             if (Email.Text.Trim().Equals(getEmail(Email.Text.Trim())))
-                                            {
+                                            { 
                                                 AccountCreated.Text = "Gmail Account already used. Please use a new Gmail account!";
                                                 AccountCreated.ForeColor = Color.Red;
                                             }
                                             else
                                             {
-                                                AccountCreated.Text = "";
-                                                //string pwd = get value from your Textbox
-                                                string pwd = Password.Text.ToString().Trim();
-                                                //Generate random "salt" 
-                                                RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-                                                byte[] saltByte = new byte[8];
-                                                //Fills array of bytes with a cryptographically strong sequence of random values.
-                                                rng.GetBytes(saltByte);
-                                                salt = Convert.ToBase64String(saltByte);
-                                                SHA512Managed hashing = new SHA512Managed();
-                                                string pwdWithSalt = pwd + salt;
-                                                byte[] plainHash = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwd));
-                                                byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
-                                                finalHash = Convert.ToBase64String(hashWithSalt);
-                                                RijndaelManaged cipher = new RijndaelManaged();
-                                                cipher.GenerateKey();
-                                                Key = cipher.Key;
-                                                IV = cipher.IV;
-                                                createAccount();
-
-                                                updateLog(Email.Text.Trim());
-
-                                                string folderPath = Server.MapPath("~/Images/");
-
-                                                //Check whether Directory (Folder) exists.
-                                                if (!Directory.Exists(folderPath))
+                                                if(!DateofBirth.Text.Equals(""))
                                                 {
-                                                    //If Directory (Folder) does not exists Create it.
-                                                    Directory.CreateDirectory(folderPath);
+                                                    int scores = checkPassword(Password.Text);
+                                                    string status = "";
+
+                                                    switch (scores)
+                                                    {
+                                                        case 1:
+                                                            status = "Very Weak!";
+                                                            break;
+
+                                                        case 2:
+                                                            status = "Weak!";
+                                                            break;
+
+                                                        case 3:
+                                                            status = "Medium!";
+                                                            break;
+
+                                                        case 4:
+                                                            status = "Strong!";
+                                                            break;
+
+                                                        case 5:
+                                                            status = "Excellent!";
+                                                            break;
+
+                                                        default:
+                                                            break;
+                                                    }
+                                                    lbl_pwdchecker.Text = "Status: " + status;
+                                                    if (scores < 4)
+                                                    {
+                                                        lbl_pwdchecker.ForeColor = Color.Red;
+                                                        return;
+                                                    }
+                                                    lbl_pwdchecker.ForeColor = Color.Green;
+
+                                                    /*          @FirstName
+                                                                @LastName
+                                                                @CreditCardInfo
+                                                                @Email
+                                                                @PasswordHash
+                                                                @PasswordSalt
+                                                                @DateOfBirth
+                                                                @Photo
+                                                                @IV
+                                                                @Key
+                                                                @EmailVerified*/
+
+                                                    AccountCreated.Text = "";
+                                                    //string pwd = get value from your Textbox
+                                                    string pwd = Password.Text.ToString().Trim();
+                                                    //Generate random "salt" 
+                                                    RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+                                                    byte[] saltByte = new byte[8];
+                                                    //Fills array of bytes with a cryptographically strong sequence of random values.
+                                                    rng.GetBytes(saltByte);
+                                                    salt = Convert.ToBase64String(saltByte);
+                                                    SHA512Managed hashing = new SHA512Managed();
+                                                    string pwdWithSalt = pwd + salt;
+                                                    byte[] plainHash = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwd));
+                                                    byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
+                                                    finalHash = Convert.ToBase64String(hashWithSalt);
+                                                    RijndaelManaged cipher = new RijndaelManaged();
+                                                    cipher.GenerateKey();
+                                                    Key = cipher.Key;
+                                                    IV = cipher.IV;
+
+                                                    updateLog(Email.Text.Trim());
+
+                                                    string folderPath = Server.MapPath("~/Images/");
+
+                                                    //Check whether Directory (Folder) exists.
+                                                    if (!Directory.Exists(folderPath))
+                                                    {
+                                                        //If Directory (Folder) does not exists Create it.
+                                                        Directory.CreateDirectory(folderPath);
+                                                    }
+
+                                                    if (!ImageUpload.FileName.Equals(""))
+                                                    {
+                                                        //Save the File to the Directory (Folder).
+                                                        ImageUpload.SaveAs(folderPath + Path.GetFileName(ImageUpload.FileName));
+                                                        createAccount();
+                                                        Response.Redirect("SITConnectLogin.aspx", false);
+                                                    }
+                                                    else
+                                                    {
+                                                        NoImageMsg.Text = "Please upload an image.";
+                                                        NoImageMsg.ForeColor = Color.Red;
+                                                    }
                                                 }
-
-                                                //Save the File to the Directory (Folder).
-                                                ImageUpload.SaveAs(folderPath + Path.GetFileName(ImageUpload.FileName));
-
-                                                Response.Redirect("SITConnectLogin.aspx", false);
+                                                else
+                                                {
+                                                    DateofBirthMsg.Text = "Please insert your birthday.";
+                                                    DateofBirthMsg.ForeColor = Color.Red;
+                                                }
                                             }
                                         }
                                         else
                                         {
+                                            AccountCreated.Text = "";
                                             emailMsg.Text = "Invalid Email.";
                                             emailMsg.ForeColor = Color.Red;
                                         }

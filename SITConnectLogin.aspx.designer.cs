@@ -24,49 +24,31 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// sup control.
+        /// tb_loginEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl sup;
+        protected global::System.Web.UI.WebControls.TextBox tb_loginEmail;
 
         /// <summary>
-        /// loginEmail control.
+        /// tb_loginPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox loginEmail;
+        protected global::System.Web.UI.WebControls.TextBox tb_loginPassword;
 
         /// <summary>
-        /// loginPassword control.
+        /// loginFail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox loginPassword;
-
-        /// <summary>
-        /// LinkButton1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton1;
-
-        /// <summary>
-        /// lbl_gScore control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbl_gScore;
+        protected global::System.Web.UI.WebControls.Label loginFail;
 
         /// <summary>
         /// registerUser control.
@@ -87,40 +69,13 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected global::System.Web.UI.WebControls.Button loginSubmit;
 
         /// <summary>
-        /// lblMessage control.
+        /// OTPField control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMessage;
-
-        /// <summary>
-        /// Label1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
-
-        /// <summary>
-        /// LockdownMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LockdownMessage;
-
-        /// <summary>
-        /// emailconfirm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl emailconfirm;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl OTPField;
 
         /// <summary>
         /// tb_EmailOTP control.
@@ -132,13 +87,22 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected global::System.Web.UI.WebControls.TextBox tb_EmailOTP;
 
         /// <summary>
-        /// submitorfail control.
+        /// EmailLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button submitorfail;
+        protected global::System.Web.UI.WebControls.Label EmailLabel;
+
+        /// <summary>
+        /// OTPSubmit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button OTPSubmit;
 
         /// <summary>
         /// ResendCode control.
@@ -148,14 +112,5 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ResendCode;
-
-        /// <summary>
-        /// EmailLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label EmailLabel;
     }
 }
