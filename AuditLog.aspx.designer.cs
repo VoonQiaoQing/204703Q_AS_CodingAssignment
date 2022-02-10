@@ -24,15 +24,6 @@ namespace _204703Q_AS_CodingAssignment_Ver2
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// headBack control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button headBack;
-
-        /// <summary>
         /// DBDataPlaceHolder control.
         /// </summary>
         /// <remarks>

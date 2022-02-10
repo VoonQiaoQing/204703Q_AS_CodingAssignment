@@ -42,7 +42,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             {
                 if (!Session["AuthToken"].ToString().Equals(Request.Cookies["AuthToken"].Value))
                 {
-                    Response.Redirect("LoginForm.aspx", false);
+                    Response.Redirect("SITConnectLogin.aspx", false);
                 }
                 else
                 {
@@ -51,7 +51,7 @@ namespace _204703Q_AS_CodingAssignment_Ver2
             }
             else
             {
-                Response.Redirect("LoginForm.aspx", false);
+                Response.Redirect("SITConnectLogin.aspx", false);
             }
         }
 

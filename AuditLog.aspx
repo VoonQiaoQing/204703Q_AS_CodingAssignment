@@ -11,7 +11,6 @@
 
      <fieldset class="fieldset" style="margin: 50px; width: 1100px;">
          <legend>Audit Logs</legend>
-        <asp:Button ID="headBack" class="button" runat="server" Text="Head Back to Home Page"/>
          <br />
          <br />
         <table style="text-align: center; width: 1000px; ">  
